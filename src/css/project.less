@@ -1,0 +1,240 @@
+.fixed-map {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.byline {
+  font-family: @med-graphics;
+  font-size: 16px;
+  text-align: center;
+  padding-top: 10px;
+  @media @mobile {
+    font-size: 16px;
+  }
+  a {
+    cursor: pointer;
+    color: lighten(@light-gray,10%);
+    &:hover {
+      color: white;
+    }
+    text-decoration: underline;
+  }
+}
+
+.instructions {
+  text-align: center;
+  padding-top: 30px;
+  font-size: 16px;
+  color: white;
+  font-family: @bold-graphics;
+  .fa-hand-o-right {
+    padding-right: 5px;
+  }
+  .fa-angle-double-down {
+    font-size: 30px;
+  }
+  background: @dark-gray-blue;
+  @media @mobile {
+    background: rgba(0, 2, 27, 0.8);
+    // background: rgba(255,255,255,0.9);
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+}
+
+.category-box {
+  position: relative;
+  // margin-left: 100px;
+  padding-top: 300px;
+  padding-bottom: 200px;
+  font-size: 24px;
+  // max-width: 600px;
+  // margin-right: 60%;
+  // margin-left: auto;
+  // pointer-events: none;
+  // @media @tablet {
+  //   margin-left: 180px;
+  //   width: 45%;
+  // }
+  @media @mobile {
+    width:90%;
+    margin: auto;
+    padding-top: 0;
+    color: black;
+    font-size: 20px;
+  }
+  // @media @mini-mobile {
+  //   font-size: 18px;
+  // }
+  text-align: left;
+}
+
+.event {
+  padding: 500px 0;
+  .display-flex;
+  .flex-wrap(wrap);
+  .align-items(center);
+  max-width: 1000px;
+  margin: auto;
+  .category {
+    z-index: 100;
+    color: white;
+    padding: 20px;
+    font-family: @block-graphics;
+    line-height: 1.2;
+    font-size: 20px;
+    .flex(0 0 40%);
+  }
+  .image-container {
+    .flex(0 0 60%);
+    text-align: center;
+    img {
+      max-width: 90%;
+    }
+    .hidden-image {
+      opacity: 0;
+      -webkit-transition: opacity 500ms linear;
+      -ms-transition: opacity 500ms linear;
+      transition: opacity 500ms linear;
+    }
+  }
+  @media @mobile {
+    padding: 0;
+    margin: 600px 0;
+  }
+}
+
+.top-container {
+  position: relative;
+  top: 0;
+  z-index: 80;
+  text-align: left;
+  color: white;
+  // padding-bottom: 100px;
+  margin-top: 300px;
+  padding-left: 50px;
+  max-width: 600px;
+  margin-right: 60%;
+  margin-left: auto;
+  @media @laptop {
+    margin-top: 200px;
+    // padding-top: 80px;
+    width: 40%;
+  }
+  @media @tablet-horiz {
+    width: 50%;
+  }
+  @media @tablet {
+    width: 70%;
+    padding-top: 250px;
+    padding-bottom: 120px;
+  }
+  @media @mobile {
+    width: 100%;
+    top: 100px;
+    padding: 0;
+  }
+}
+
+.hed-wrapper {
+  padding: 10px;
+  color: white;
+  background: #00021B;
+  @media @mobile {
+    margin-top: 0;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    background: rgba(0, 2, 27, 0.8);
+  }
+  .hed {
+    font-family: @bold-graphics;
+    font-size: 30px;
+    max-width: 450px;
+    margin: auto;
+    line-height:1.4;
+    @media @tablet {
+      font-size: 25px;
+    }
+    @media @mobile {
+      font-size: 25px;
+    }
+  }
+  .title-date {
+    font-family: @med-graphics;
+    // color: @highlight;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 20px;
+    @media @mobile {
+      font-size: 30px;
+    }
+  }
+  .deck {
+    font-family: @block-graphics;
+    line-height: 1.2;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 20px;
+  }
+}
+
+circle {
+  -webkit-transition: opacity 100ms linear;
+  -ms-transition: opacity 100ms linear;
+  transition: opacity 100ms linear;
+}
+
+.map-container {
+  position: relative;
+}
+
+.map-placeholder {
+  height: 760px;
+  z-index:-100;
+}
+
+#map {
+  pointer-events: all;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  z-index: 0;
+  cursor: auto;
+  @media @tablet {
+    width: 100%;
+  }
+  @media @mobile {
+    top: 0;
+    z-index: -1;
+  }
+  svg {
+    pointer-events: all;
+  }
+}
+
+path {
+  pointer-events: all;
+}
+
+// leaflet styles --------------------------------------------------------------
+
+.leaflet-popup-content{
+  margin: 10px 5px;
+  width:auto;
+  max-width:240px;
+  font-family: @body;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius:3px;
+  max-width:240px;
+  box-shadow: 0 1px 14px rgba(0,0,0,0.30);
+  padding-left:10px;
+  padding-right:10px;
+}

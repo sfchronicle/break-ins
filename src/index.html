@@ -1,0 +1,67 @@
+<%= t.include("partials/_head.html") %>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+<!-- Mapbox GL -->
+<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.css" rel='stylesheet' />
+<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.js"></script>
+
+<div class="map-container">
+  <div id="map"></div>
+</div>
+<div class="tooltip-map" id="tooltip"></div>
+
+<div class="top-container">
+
+  <div class="hed-wrapper">
+    <div class="hed"><%=json.carbreakinxxxx_data.Title %></div>
+    <div class="title-date"><%=json.carbreakinxxxx_data.Date %></div>
+    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a> and <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a></div>
+
+    <div class="deck"><%=json.carbreakinxxxx_data.Deck%></div>
+  </div>
+
+  <div class="instructions">Scroll down.
+    <div class="arrow"><i class="fa fa-angle-double-down" aria-hidden="true"></i></div>
+  </div>
+
+</div>
+<div id="bottom-of-top"></div>
+
+<div class="category-box">
+<% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
+  <div class="event" id="mapevent<%=dIDX%>">
+    <div class="category"><%=d.Text%></div>
+    <div class="image-container">
+      <% if (d.Graphic){ %>
+        <img id="image<%=dIDX%>" class="hidden-image" src="<%=d.Graphic%>"></img>
+      <% } %>
+      <% if (d.Photo){ %>
+        <img id="image<%=dIDX%>" class="hidden-image" src="https://s.hdnux.com/photos/71/45/07/<%=d.Photo%>/3/premium_landscape.jpg"></img>
+      <% } %>
+    </div>
+  </div>
+<% }); %>
+</div>
+
+<div id="top-of-bottom"></div>
+
+<div class="bottom-of-page">
+  <div class="disclaimer">
+    <div class="disclaimer-sentence">Data is recorded by <a href="http://www.gunviolencearchive.org/" target="_blank">Gun Violence Archive</a>, an independent research and data collection group established in 2012.</div>
+  </div>
+</div>
+
+
+<%= t.include("partials/_footer.html") %>
+
+<script src="../assets/censusblocks/NEWDATACOMBO.js" type="text/javascript"></script>
+
+<script>
+  var breakins2017 = <%= JSON.stringify(json.arrests) %>
+  var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
+</script>
+
+<script src="app.js" async></script>
