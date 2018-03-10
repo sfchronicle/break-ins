@@ -102,8 +102,8 @@ map.doubleClickZoom.enable();
 // var getColor = d3.scaleOrdinal(d3.schemeCategory20c);
 
 function style(feature) {
-  console.log(feature.properties.blockce10);
-  var count = +feature.properties.countbreakins/1356;
+  // console.log(feature.properties.blockce10);
+  var count = +feature.properties.countbreakins/100;
   if (isNaN(count)){
     console.log("we have an error");
     count = 0;
