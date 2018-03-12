@@ -5,10 +5,13 @@ var d3 = require('d3');
 var min_zoom_deg = 4;
 var max_zoom_deg = 16;
 
-console.log(sf);
-
 breakins2017 = breakins2017;
-console.log(breakins2017);
+
+function zfill(number, size) {
+  number = number.toString();
+  while (number.length < size) number = "0" + number;
+  return number;
+}
 
 // setting parameters for the center of the map and initial zoom level
 if (screen.width <= 340) {
@@ -75,17 +78,14 @@ var map = L.map("map", {
   attributionControl: false
 }).setView([sf_lat,sf_long], zoom_deg);
 
-
-console.log(sf);
-// console.log(JSON.parse(sf));
-
-// // initializing the svg layer
-// L.svg().addTo(map);
-//
 var gl = L.mapboxGL({
     accessToken: 'pk.eyJ1IjoiZW1ybyIsImEiOiJjaXl2dXUzMGQwMDdsMzJuM2s1Nmx1M29yIn0._KtME1k8LIhloMyhMvvCDA',
     style: 'mapbox://styles/emro/cj8lviggc6b302rqjyezdqc2m'
 }).addTo(map);
+
+// add tiles to the map
+// var mapLayer = L.tileLayer("https://api.mapbox.com/styles/v1/emro/cj8lviggc6b302rqjyezdqc2m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZW1ybyIsImEiOiJjaXl2dXUzMGQwMDdsMzJuM2s1Nmx1M29yIn0._KtME1k8LIhloMyhMvvCDA",{attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>'})
+// mapLayer.addTo(map);
 
 var attribution = L.control.attribution();
 attribution.setPrefix('');
@@ -93,9 +93,9 @@ attribution.addAttribution('Map data: <a href="http://openstreetmap.org/copyrigh
 attribution.addTo(map);
 
 // zoom control is on top right
-L.control.zoom({
-     position:'bottomright'
-}).addTo(map);
+// L.control.zoom({
+//      position:'bottomright'
+// }).addTo(map);
 
 map.doubleClickZoom.enable();
 
@@ -115,10 +115,10 @@ function style(feature) {
     color: 'white',
     dashArray: '0',
     fillOpacity: count-0.1,
-    className: "feature"+feature.properties.blockce10
+    className: "feature"+zfill(+feature.properties.geoid10,15)
   };
 }
-L.geoJSON(sf,{style: style}).addTo(map);
+var breakinLayer = L.geoJSON(sf,{style: style}).addTo(map);
 
 
 // creating Lat/Lon objects that d3 is expecting
@@ -140,21 +140,23 @@ var circles = g.selectAll("g")
 // adding circles to the map
 circles.append("circle")
   .attr("class",function(d) {
-    var class_str = "dot "+d.Class+" "+d.ExtraClass;
+    var class_str = "dot hidden "+d.Class+" "+d.ExtraClass;
     return class_str;
-  })
-  .style("opacity",function(d){
-    if (d.Class == "breakin") {
-      return 0.3;
-    } else {
-      return 0;
-    }
   })
   .style("fill", function(d) {
     if (d.Class == "breakin"){
       return "#FDE74C";
+    } else if (d.Class == "arrest"){
+      return "#EF2917";//"#FF9393";
     } else {
-      return "#FF9393";
+      return "#EF8A17";
+    }
+  })
+  .style("opacity",function(d){
+    if (d.Class == "breakin" || d.Class == "breakin2003") {
+      return 0.4;
+    } else if (d.Class == "arrest"){
+      return 1;
     }
   })
   .style("stroke","#696969")
@@ -162,15 +164,18 @@ circles.append("circle")
     // console.log(d.Count);
     if (d.Class == "breakin"){
       return 4+d.Count/20;
-    } else {
+    } else if (d.Class == "arrest"){
       return 4;
+    } else {
+      return 4+d.Count/20;
     }
   });
 
 map.on("viewreset", update);
 update();
 
-map.on("zoom",update)
+map.on("zoom",update);
+map.fitBounds([[37.811613,-122.523439],[37.725038, -122.379930]]);
 
 // show tooltip
 var tooltip = d3.select("div.tooltip-map");
@@ -180,22 +185,26 @@ var tooltip = d3.select("div.tooltip-map");
 var prevmapIDX = -1;
 
 // set up scrolling timeout
-// var scrollTimer = null;
-// $(window).scroll(function () {
-//     // document.getElementById("tooltip").style.visibility = "hidden";
-//     if (scrollTimer) {
-//         clearTimeout(scrollTimer);   // clear any previous pending timer
-//     }
-//     scrollTimer = setTimeout(handleScroll, timeTimeout);   // set new timer
-// });
-
+var timeTimout = 100;
+var scrollTimer = null;
 $(window).scroll(function () {
-  handleScroll();
+    // document.getElementById("tooltip").style.visibility = "hidden";
+    if (scrollTimer) {
+        clearTimeout(scrollTimer);   // clear any previous pending timer
+    }
+    scrollTimer = setTimeout(handleScroll, timeTimeout);   // set new timer
 });
 
+// $(window).scroll(function () {
+//   handleScroll();
+// });
+
 // function for updating with scroll
+var prevIDX = -1;
+var currentIDX = -1;
 function handleScroll() {
 
+  prevIDX = currentIDX;
   scrollTimer = null;
 
   // figure out where the top of the page is, and also the top and beginning of the map content
@@ -205,37 +214,70 @@ function handleScroll() {
 
   // show the landing of the page if the reader is at the top
   if (pos < pos_map_top){
-    var prevmapIDX = -1;
-    $(".arrest").css({opacity: 0})
-    $(".leaflet-interactive").css({opacity: 0.3})
-    // $("#tooltip").css({display: "block"});
+    prevIDX = -1;
+
+    $(".leaflet-interactive").removeClass("lowopacity");
+    $(".leaflet-interactive").removeClass("bright");
+    $(".leaflet-interactive").removeClass("hidden");
+    $(".dot").addClass("hidden");
+    map.fitBounds([[37.811613,-122.523439],[37.725038, -122.379930]]);
 
   // show the appropriate dots if the reader is in the middle of the page
   } else if (pos < pos_map_bottom){
-    var currentIDX = -1;
+    currentIDX = -1;
     categoryData.forEach(function(cat,catIDX) {
       var pos_map = $('#mapevent'+catIDX).offset().top-offset_top;
       if (pos > pos_map) {
         currentIDX = Math.max(catIDX,currentIDX);
       }
     });
-    console.log(currentIDX);
     if (currentIDX > -1){
-      $(".dot").css({opacity: 0});
-      $(".hidden-image").css({opacity: 0});
-      if (categoryData[+currentIDX]["Key"] == "faded") {
-        $(".leaflet-interactive").css({opacity: 0.1})
+
+      if (categoryData[+currentIDX]["Key"] == "dots") {
+        $(".leaflet-interactive").addClass("hidden");
+        $(".breakin").removeClass("hidden");
+        $(".arrest").removeClass("hidden");
+      } else if (categoryData[+currentIDX]["Key"] == "breakins2003"){
+        $(".leaflet-interactive").addClass("hidden");
+        $(".breakin2003").removeClass("hidden");
       } else {
-        $("."+categoryData[+currentIDX]["Key"]).css({opacity: 0.8})
-      }
-      if (categoryData[+currentIDX]["Graphic"] || categoryData[+currentIDX]["Photo"]) {
-        $("#image"+currentIDX).css({opacity: 1});
+        $(".dot").addClass("hidden");
+        $(".leaflet-interactive").removeClass("hidden");
       }
 
-      // if (categoryData[+currentIDX]["Key"] != "LasVegas" && categoryData[+currentIDX]["Key"] != "Total") {
-      //   $(".LasVegas").css({opacity: 0});
-      // }
+      if (categoryData[+currentIDX]["Key"] == "faded") {
+        $(".leaflet-interactive").removeClass("lowopacity");
+        $(".leaflet-interactive").removeClass("bright");
+      } else {
+        $(".leaflet-interactive").removeClass("bright");
+        $(".leaflet-interactive").addClass("lowopacity");
+        var keys = categoryData[+currentIDX]["Key"].split(", ");
+        for (var kk=0; kk<keys.length; kk++){
+          $("."+keys[kk]).removeClass("lowopacity");
+          $("."+keys[kk]).addClass("bright");
+        }
+        if (+currentIDX != prevIDX && !categoryData[+currentIDX]["Bounds"]){
+          map.fitBounds([[37.811613,-122.523439],[37.725038, -122.379930]]);
+        }
+        if (+currentIDX != prevIDX && categoryData[+currentIDX]["Bounds"]){
+          var boundskey = categoryData[+currentIDX]["Bounds"];
+          if (boundskey == "tourist"){
+            map.flyToBounds([[37.813982,-122.501767],[37.765010,-122.377484]]);
+          } else if (boundskey == "ggp"){
+            map.flyToBounds([[37.771389,-122.510994],[37.766029,-122.452200]]);
+          } else if (boundskey == "palace"){
+            map.flyToBounds([[37.809916,-122.458465],[37.796488,-122.436750]]);
+          } else if (boundskey == "alamo"){
+            map.flyToBounds([[37.786651,-122.452543],[37.758089,-122.412374]]);
+          } else if (boundskey == "pointlobos"){
+            map.flyToBounds([[37.786244,-122.526873],[37.749606,-122.493055]]);
+          } else if (boundskey == "parkinglots"){
+            map.flyToBounds([[37.796554,-122.499922],[37.724899,-122.380102]]);
+          } else if (boundskey == "dogpatch"){
+            map.flyToBounds([[37.767249,-122.409456],[37.747841,-122.376755]]);
+          }
+        }
+      }
     }
-    // $("#tooltip").css({display: "none"});
   }
 }

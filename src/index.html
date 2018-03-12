@@ -18,7 +18,7 @@
   <div class="hed-wrapper">
     <div class="hed"><%=json.carbreakinxxxx_data.Title %></div>
     <div class="title-date"><%=json.carbreakinxxxx_data.Date %></div>
-    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a> and <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a></div>
+    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a></div>
 
     <div class="deck"><%=json.carbreakinxxxx_data.Deck%></div>
   </div>
@@ -49,9 +49,7 @@
 <div id="top-of-bottom"></div>
 
 <div class="bottom-of-page">
-  <div class="disclaimer">
-    <div class="disclaimer-sentence">Data is recorded by <a href="http://www.gunviolencearchive.org/" target="_blank">Gun Violence Archive</a>, an independent research and data collection group established in 2012.</div>
-  </div>
+xw
 </div>
 
 
@@ -60,7 +58,7 @@
 <script src="../assets/censusblocks/NEWDATAGEOID.js" type="text/javascript"></script>
 
 <script>
-  var breakins2017 = <%= JSON.stringify(json.arrests) %>
+  var breakins2017 = <%= JSON.stringify(json.data) %>
   var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
 </script>
 
