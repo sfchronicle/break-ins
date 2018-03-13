@@ -80,11 +80,11 @@ var map = L.map("map", {
 
 var gl = L.mapboxGL({
     accessToken: 'pk.eyJ1IjoiZW1ybyIsImEiOiJjaXl2dXUzMGQwMDdsMzJuM2s1Nmx1M29yIn0._KtME1k8LIhloMyhMvvCDA',
-    style: 'mapbox://styles/emro/cj8lviggc6b302rqjyezdqc2m'
+    style: 'mapbox://styles/emro/cj8bybgjo6muo2rpu8r43ur4z'
 }).addTo(map);
 
 // add tiles to the map
-// var mapLayer = L.tileLayer("https://api.mapbox.com/styles/v1/emro/cj8lviggc6b302rqjyezdqc2m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZW1ybyIsImEiOiJjaXl2dXUzMGQwMDdsMzJuM2s1Nmx1M29yIn0._KtME1k8LIhloMyhMvvCDA",{attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>'})
+// var mapLayer = L.tileLayer("https://api.mapbox.com/styles/v1/emro/cjcl3kt1c07l32qnklvj12kn7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZW1ybyIsImEiOiJjaXl2dXUzMGQwMDdsMzJuM2s1Nmx1M29yIn0._KtME1k8LIhloMyhMvvCDA",{attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>'})
 // mapLayer.addTo(map);
 
 var attribution = L.control.attribution();
@@ -109,7 +109,7 @@ function style(feature) {
     count = 0;
   }
   return {
-    fillColor: "yellow",//getColor(count),
+    fillColor: "#7EC3DA",//getColor(count),
     weight: 0,
     opacity: 1,
     color: 'white',
@@ -120,84 +120,86 @@ function style(feature) {
 }
 var breakinLayer = L.geoJSON(sf,{style: style}).addTo(map);
 
+function buildmap(){
 
-// creating Lat/Lon objects that d3 is expecting
-breakins2017.forEach(function(d,idx) {
-	d.LatLng = new L.LatLng(d.Latitude, d.Longitude);
-  if (d.Address == "Grand Total"){
-    d.Count = 0;
-  }
-});
-
-var svg = d3.select("#map").select("svg"),
-g = svg.append("g");
-
-var circles = g.selectAll("g")
-  .data(breakins2017)
-  .enter()
-  .append("g");
-
-// adding circles to the map
-circles.append("circle")
-  .attr("class",function(d) {
-    var class_str = "dot hidden "+d.Class+" "+d.ExtraClass;
-    return class_str;
-  })
-  .style("fill", function(d) {
-    if (d.Class == "breakin"){
-      return "#FDE74C";
-    } else if (d.Class == "arrest"){
-      return "#EF2917";//"#FF9393";
-    } else {
-      return "#EF8A17";
-    }
-  })
-  .style("opacity",function(d){
-    if (d.Class == "breakin" || d.Class == "breakin2003") {
-      return 0.4;
-    } else if (d.Class == "arrest"){
-      return 1;
-    }
-  })
-  .style("stroke","#696969")
-  .attr("r", function(d) {
-    // console.log(d.Count);
-    if (d.Class == "breakin"){
-      return 4+d.Count/20;
-    } else if (d.Class == "arrest"){
-      return 4;
-    } else {
-      return 4+d.Count/20;
+  // creating Lat/Lon objects that d3 is expecting
+  breakins2017.forEach(function(d,idx) {
+  	d.LatLng = new L.LatLng(d.Latitude, d.Longitude);
+    if (d.Address == "Grand Total"){
+      d.Count = 0;
     }
   });
 
-map.on("viewreset", update);
-update();
+  var svg = d3.select("#map").select("svg"),
+  g = svg.append("g");
 
-map.on("zoom",update);
-map.fitBounds([[37.811613,-122.523439],[37.725038, -122.379930]]);
+  var circles = g.selectAll("g")
+    .data(breakins2017)
+    .enter()
+    .append("g");
 
-// show tooltip
-var tooltip = d3.select("div.tooltip-map");
+  // adding circles to the map
+  circles.append("circle")
+    .attr("class",function(d) {
+      var class_str = "dot hidden "+d.Class+" "+d.ExtraClass;
+      return class_str;
+    })
+    .style("fill", function(d) {
+      if (d.Class == "breakin"){
+        return "#FDE74C";
+      } else if (d.Class == "arrest"){
+        return "#EF2917";//"#FF9393";
+      } else {
+        return "#EF8A17";
+      }
+    })
+    .style("opacity",function(d){
+      if (d.Class == "breakin" || d.Class == "breakin2003") {
+        return 0.4;
+      } else if (d.Class == "arrest"){
+        return 1;
+      }
+    })
+    .style("stroke","#696969")
+    .attr("r", function(d) {
+      // console.log(d.Count);
+      if (d.Class == "breakin"){
+        return 4+d.Count/20;
+      } else if (d.Class == "arrest"){
+        return 4;
+      } else {
+        return 4+d.Count/20;
+      }
+    });
 
+  map.on("viewreset", update);
+  update();
+
+  map.on("zoom",update);
+  map.fitBounds([[37.811613,-122.523439],[37.725038, -122.379930]]);
+
+  // show tooltip
+  var tooltip = d3.select("div.tooltip-map");
+
+}
 
 // initial variable, which indicates that map is on landing on load
 var prevmapIDX = -1;
 
 // set up scrolling timeout
-var timeTimout = 100;
-var scrollTimer = null;
-$(window).scroll(function () {
-    // document.getElementById("tooltip").style.visibility = "hidden";
-    if (scrollTimer) {
-        clearTimeout(scrollTimer);   // clear any previous pending timer
-    }
-    scrollTimer = setTimeout(handleScroll, timeTimeout);   // set new timer
-});
-
+// var timeTimout = 100;
+// var scrollTimer = null;
 // $(window).scroll(function () {
-//   handleScroll();
+//     // document.getElementById("tooltip").style.visibility = "hidden";
+//     if (scrollTimer) {
+//         clearTimeout(scrollTimer);   // clear any previous pending timer
+//     }
+//     scrollTimer = setTimeout(handleScroll, timeTimeout);   // set new timer
 // });
+
+$(window).scroll(function () {
+  handleScroll();
+});
 
 // function for updating with scroll
 var prevIDX = -1;
