@@ -11,12 +11,10 @@
     <% } else { %>
       <div class="background-img-container" id="background<%=dIDX%>">
     <% } %>
-
       <% if (d.Image.match("graphics")){ %>
-        <% console.log(d.Image); %>
-        <img src="<%=d.Image%>?4"><div class="shadow"></div></img>
+        <img src="<%=d.Image%>?4"></img>
       <% } else { %>
-        <img src="<%=d.Image%>?4"><div class="shadow"></div></img>
+        <img src="<%=d.Image%>?4"></img>
       <% } %>
     </div>
   <% } %>
@@ -58,7 +56,7 @@
     <div class="credit">Data reporter: <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a></div>
     <div class="credit">Interactive developer: <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a></div>
     <div class="credit">Graphic illustrator: <a href="mailto:ttrumbull@sfchronicle.com">Todd Trumbull</a></div>
-    <div class="credit">Digital producer: <a href="mailto:lvilla@sfchronicle.com">Lucio Villa</a></div>
+    <!-- <div class="credit">Digital producer: <a href="mailto:lvilla@sfchronicle.com">Lucio Villa</a></div> -->
   </div>
 
 </div>
@@ -70,4 +68,4 @@
   var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
 </script>
 
-<script src="scrolly_app.js" async></script>
+<script src="scrolly_app.js?2" async></script>
