@@ -18,7 +18,7 @@
   <div class="hed-wrapper">
     <div class="hed"><%=json.carbreakinxxxx_data.Title %></div>
     <div class="title-date"><%=json.carbreakinxxxx_data.Date %></div>
-    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a></div>
+    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a>, <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a>, and <a href="mailto:ttrumbull@sfchronicle.com">Todd Trumbull</a></div>
 
     <div class="deck"><%=json.carbreakinxxxx_data.Deck%></div>
   </div>
@@ -32,14 +32,21 @@
 
 <div class="category-box">
 <% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
-  <div class="event" id="mapevent<%=dIDX%>">
-    <div class="category"><%=d.Text%></div>
+  <% if (d.Graphic) { %>
+    <div class="event big-event" id="mapevent<%=dIDX%>">
+  <% } else { %>
+    <div class="event" id="mapevent<%=dIDX%>">
+  <% } %>
+    <div class="category"><div class="category-text"><%=d.Text%></div></div>
     <div class="image-container">
       <% if (d.Graphic){ %>
         <img id="image<%=dIDX%>" class="hidden-image" src="<%=d.Graphic%>"></img>
       <% } %>
       <% if (d.Photo){ %>
         <img id="image<%=dIDX%>" class="hidden-image" src="https://s.hdnux.com/photos/71/45/07/<%=d.Photo%>/3/premium_landscape.jpg"></img>
+      <% } %>
+      <% if (d.Credit) { %>
+        <div class="caption"><%=d.Credit%></div>
       <% } %>
     </div>
   </div>
@@ -53,12 +60,10 @@ xw
 </div>
 
 
-<%= t.include("partials/_footer.html") %>
-
 <script src="../assets/censusblocks/NEWDATAGEOID.js" type="text/javascript"></script>
 
 <script>
-  var breakins2017 = <%= JSON.stringify(json.data) %>
+  var breakins2017 = <%= JSON.stringify(json.shortdata) %>
   var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
 </script>
 

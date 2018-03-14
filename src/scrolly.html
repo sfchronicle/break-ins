@@ -1,0 +1,51 @@
+<%= t.include("partials/_scrolly_head.html") %>
+
+<% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
+  <% if (dIDX == 0){ %>
+    <div class="background-img-container visible" id="background<%=dIDX%>">
+  <% } else { %>
+    <div class="background-img-container" id="background<%=dIDX%>">
+  <% } %>
+    <img src="<%=d.Image%>"></img>
+  </div>
+<% }); %>
+
+<div class="top-container">
+
+  <div class="hed-wrapper">
+    <div class="hed"><%=json.carbreakinxxxx_data.Title %></div>
+    <div class="title-date"><%=json.carbreakinxxxx_data.Date %></div>
+    <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a>, <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a>, and <a href="mailto:ttrumbull@sfchronicle.com">Todd Trumbull</a></div>
+
+    <div class="deck"><%=json.carbreakinxxxx_data.Deck%></div>
+  </div>
+
+  <div class="instructions">Scroll down.
+    <div class="arrow"><i class="fa fa-angle-double-down" aria-hidden="true"></i></div>
+  </div>
+
+</div>
+<div id="bottom-of-top"></div>
+
+<div class="category-box">
+<% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
+  <div class="event" id="mapevent<%=dIDX%>">
+    <div class="category"><div class="category-text"><%=d.Text%></div></div>
+  </div>
+<% }); %>
+</div>
+
+<div id="top-of-bottom"></div>
+
+<div class="bottom-of-page">
+
+</div>
+
+
+<%= t.include("partials/_footer.html") %>
+
+<script>
+  var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
+</script>
+
+<script src="scrolly_app.js" async></script>

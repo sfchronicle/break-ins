@@ -8,24 +8,25 @@ module.exports = function(grunt) {
 
   var async = require("async");
   var less = require("less");
-  
+
   var options = {
     paths: ["src/css"],
     filename: "seed.less"
   };
-  
+
   grunt.registerTask("less", function() {
-    
+
     var done = this.async();
 
     var seeds = {
-      "src/css/seed.less": "build/style.css"
+      "src/css/seed.less": "build/style.css",
+      "src/css/scrolly_seed.less": "build/scrolly_style.css"
     };
 
     async.forEachOf(seeds, function(dest, src, c) {
 
       var seed = grunt.file.read(src);
-      
+
       less.render(seed, options, function(err, result) {
         if (err) {
           grunt.fail.fatal(err.message + " - " + err.filename + ":" + err.line);
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
       });
 
     }, done)
-    
+
   });
 
 };

@@ -1,10 +1,19 @@
-.fixed-map {
-  position: fixed;
+
+.background-img-container {
   width: 100%;
-  z-index: 99;
-  left: 0;
+  height: 100%;
+  position: fixed;
   top: 0;
-  z-index: -1;
+  -webkit-transition: opacity 500ms linear;
+  -ms-transition: opacity 500ms linear;
+  transition: opacity 500ms linear;
+  opacity: 0;
+  img {
+    max-width: 100%;
+  }
+  &.visible {
+    opacity: 1;
+  }
 }
 
 .hidden, .imagehidden {
@@ -71,7 +80,7 @@
     font-size: 20px;
   }
   text-align: left;
-  display: none;
+  // display: none;
 }
 
 .highlight {
@@ -138,7 +147,7 @@
   margin: auto;
   margin-top: 300px;
   max-width: 400px;
-  display: none;
+  // display: none;
   @media @laptop {
     margin-top: 200px;
     // padding-top: 80px;
