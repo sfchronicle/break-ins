@@ -6,10 +6,10 @@ if (screen.width <= 480) {
   var bottomOffset = 200;
 } else if (screen.width <= 768) {
   var offset_top = $(window).height()/4;
-  var bottomOffset = 200;
+  var bottomOffset = 300;
 } else {
   var offset_top = $(window).height()/3;
-  var bottomOffset = 200;
+  var bottomOffset = 400;
 }
 
 $(window).scroll(function () {
@@ -28,10 +28,12 @@ function handleScroll() {
   var pos = $(this).scrollTop();
   var pos_map_top = $('#bottom-of-top').offset().top;
   var pos_map_bottom = $('#top-of-bottom').offset().top-bottomOffset;
+  console.log(pos_map_top);
 
   // show the landing of the page if the reader is at the top
   if (pos < pos_map_top){
-    prevIDX = -1;
+    console.log("at the top");
+    currentIDX = -1;
 
   // show the appropriate dots if the reader is in the middle of the page
   } else if (pos < pos_map_bottom){
@@ -42,11 +44,9 @@ function handleScroll() {
         currentIDX = Math.max(catIDX,currentIDX);
       }
     });
-    console.log(currentIDX);
-    console.log(categoryData[currentIDX].Image);
-    $("#background"+prevIDX).removeClass("visible");
-    $("#background"+currentIDX).addClass("visible");
   }
+  $("#background"+prevIDX).removeClass("visible");
+  $("#background"+currentIDX).addClass("visible");
 
 
 }

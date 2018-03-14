@@ -2,9 +2,6 @@ require("./lib/social"); //Do not delete
 require("./lib/leaflet-mapbox-gl");
 var d3 = require('d3');
 
-var min_zoom_deg = 4;
-var max_zoom_deg = 16;
-
 breakins2017 = breakins2017;
 
 function zfill(number, size) {
@@ -14,38 +11,12 @@ function zfill(number, size) {
 }
 
 // setting parameters for the center of the map and initial zoom level
-if (screen.width <= 340) {
-  var sf_lat = 5;
-  var sf_long = -110;
-  var zoom_deg = 2;
+var sf_lat = 37.7749;
+var sf_long = -122.4294;
+var zoom_deg = 13;//13 zoomed out
+var offset_top = $(window).height()/3;
+var bottomOffset = 200;
 
-  var offset_top = $(window).height();
-  var bottomOffset = 200;
-
-} else if (screen.width <= 480) {
-  var sf_lat = 15;
-  var sf_long = -100;
-  var zoom_deg = 2.5;
-
-  var offset_top = $(window).height();
-  var bottomOffset = 200;
-
-} else if (screen.width <= 768) {
-
-  var sf_lat = 13;
-  var sf_long = -118.5;
-  var zoom_deg = 3;
-
-  var offset_top = $(window).height()/4;
-  var bottomOffset = 200;
-
-} else {
-  var sf_lat = 37.7749;
-  var sf_long = -122.4294;
-  var zoom_deg = 12;
-  var offset_top = $(window).height()/3;
-  var bottomOffset = 200;
-}
 
 console.log(offset_top);
 
@@ -136,16 +107,16 @@ function buildmap(){
     })
     .style("fill", function(d) {
       if (d.Class == "breakin"){
-        return "#7EC3DA";
+        return "#FFF0AA";//"#7EC3DA";
       } else if (d.Class == "arrest"){
-        return "#EF2917";//"#FF9393";
+        return "#D81159";//"#EF2917";//"#FF9393";
       } else {
         return "#EF8A17";
       }
     })
     .style("opacity",function(d){
       if (d.Class == "breakin" || d.Class == "breakin2003") {
-        return 0.4*d.Count;
+        return 0.5;
       } else if (d.Class == "arrest"){
         return 1;
       }
@@ -153,11 +124,9 @@ function buildmap(){
     .style("stroke","#696969")
     .attr("r", function(d) {
       if (d.Class == "breakin"){
-        return 2+d.Count/10;
+        return 3+d.Count/10*(zoom_deg-12);
       } else if (d.Class == "arrest"){
-        return 4+d.Count/20;
-      } else {
-        return 2+d.Count/10;
+        return 3+d.Count/10*(zoom_deg-12);
       }
     });
 

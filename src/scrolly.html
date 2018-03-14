@@ -1,13 +1,25 @@
 <%= t.include("partials/_scrolly_head.html") %>
 
+<div class="background-img-container visible" id="background-1">
+  <img src="./assets/maps/backdrop.png"></img>
+</div>
+
 <% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
-  <% if (dIDX == 0){ %>
-    <div class="background-img-container visible" id="background<%=dIDX%>">
-  <% } else { %>
-    <div class="background-img-container" id="background<%=dIDX%>">
+  <% if (d.Image){ %>
+    <% if (d.Image.match("graphics")){ %>
+      <div class="background-img-container graphics" id="background<%=dIDX%>">
+    <% } else { %>
+      <div class="background-img-container" id="background<%=dIDX%>">
+    <% } %>
+
+      <% if (d.Image.match("graphics")){ %>
+        <% console.log(d.Image); %>
+        <img src="<%=d.Image%>?4"><div class="shadow"></div></img>
+      <% } else { %>
+        <img src="<%=d.Image%>?4"><div class="shadow"></div></img>
+      <% } %>
+    </div>
   <% } %>
-    <img src="<%=d.Image%>"></img>
-  </div>
 <% }); %>
 
 <div class="top-container">
