@@ -26,7 +26,7 @@ function handleScroll() {
 
   // figure out where the top of the page is, and also the top and beginning of the map content
   var pos = $(this).scrollTop();
-  var pos_map_top = $('#bottom-of-top').offset().top;
+  var pos_map_top = $('#bottom-of-top').offset().top-bottomOffset;
   var pos_map_bottom = $('#top-of-bottom').offset().top-bottomOffset;
   console.log(pos_map_top);
 
