@@ -16,6 +16,12 @@ $(window).scroll(function () {
   handleScroll();
 });
 
+if (screen.width <= 480){
+  var img_root = "backgroundmobile";
+} else {
+  var img_root = "background";
+}
+
 // function for updating with scroll
 var prevIDX = -1;
 var currentIDX = -1;
@@ -28,13 +34,10 @@ function handleScroll() {
   var pos = $(this).scrollTop();
   var pos_map_top = $('#bottom-of-top').offset().top-bottomOffset;
   var pos_map_bottom = $('#top-of-bottom').offset().top-bottomOffset;
-  console.log(pos_map_top);
 
   // show the landing of the page if the reader is at the top
   if (pos < pos_map_top){
-    console.log("at the top");
     currentIDX = -1;
-
   // show the appropriate dots if the reader is in the middle of the page
   } else if (pos < pos_map_bottom){
     currentIDX = -1;
@@ -45,8 +48,7 @@ function handleScroll() {
       }
     });
   }
-  $("#background"+prevIDX).removeClass("visible");
-  $("#background"+currentIDX).addClass("visible");
-
+  $("#"+img_root+prevIDX).removeClass("visible");
+  $("#"+img_root+currentIDX).addClass("visible");
 
 }

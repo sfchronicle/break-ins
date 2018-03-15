@@ -1,22 +1,39 @@
 <%= t.include("partials/_scrolly_head.html") %>
 
-<div class="background-img-container visible" id="background-1">
+<div class="background-img-container visible desktop" id="background-1">
   <img src="./assets/maps/backdrop.png"></img>
+</div>
+<div class="background-img-container visible mobile" id="background-1">
+  <img src="./assets/maps/backdropm.png"></img>
 </div>
 
 <% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
   <% if (d.Image){ %>
+
     <% if (d.Image.match("graphics")){ %>
-      <div class="background-img-container graphics" id="background<%=dIDX%>">
+      <div class="background-img-container graphics desktop" id="background<%=dIDX%>">
     <% } else { %>
-      <div class="background-img-container" id="background<%=dIDX%>">
+      <div class="background-img-container desktop" id="background<%=dIDX%>">
     <% } %>
-      <% if (d.Image.match("graphics")){ %>
-        <img src="<%=d.Image%>?4"></img>
+      <% if (d.Image.match("hdnux")) { %>
+        <img src="<%=d.Image%>"></img>
       <% } else { %>
-        <img src="<%=d.Image%>?4"></img>
+        <img src="<%=d.Image%>?5"></img>
       <% } %>
-    </div>
+      </div>
+
+    <% if (d.Image.match("graphics")){ %>
+      <div class="background-img-container graphics mobile" id="backgroundmobile<%=dIDX%>">
+    <% } else { %>
+      <div class="background-img-container mobile" id="backgroundmobile<%=dIDX%>">
+    <% } %>
+      <% if (d.Image.match("hdnux")) { %>
+        <img src="<%=d.Image%>"></img>
+      <% } else { %>
+        <img src="<%=d.Image.split('.png')[0]%>m.png?5"></img>
+      <% } %>
+      </div>
+
   <% } %>
 <% }); %>
 
@@ -56,7 +73,6 @@
     <div class="credit">Data reporter: <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a></div>
     <div class="credit">Interactive developer: <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a></div>
     <div class="credit">Graphic illustrator: <a href="mailto:ttrumbull@sfchronicle.com">Todd Trumbull</a></div>
-    <!-- <div class="credit">Digital producer: <a href="mailto:lvilla@sfchronicle.com">Lucio Villa</a></div> -->
   </div>
 
 </div>

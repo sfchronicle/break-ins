@@ -4,6 +4,7 @@
   height: 100%;
   position: fixed;
   top: 37px;
+  // margin-top: 37px;
   -webkit-transition: opacity 500ms linear;
   -ms-transition: opacity 500ms linear;
   transition: opacity 500ms linear;
@@ -22,10 +23,16 @@
   }
   &.graphics {
     img {
-      padding: 20px 50px 50px 50px;
-      height: 100%;
+      max-height: 90%;
       width: auto;
-      max-width: 900px;
+      max-width: 800px;
+      margin: 3.5% auto 6.5% auto;
+      @media @mobile {
+        max-width: 100%;
+        max-height: unset;
+        height: unset;
+        margin: unset;
+      }
     }
   }
 }
@@ -124,6 +131,10 @@ footer {
   padding-bottom: 80px;
   font-size: 18px;
   line-height: 1.3;
+  @media @tablet {
+    padding: 0 20px;
+    padding-bottom: 80px;
+  }
 }
 
 .bottom-hed {
@@ -199,6 +210,26 @@ footer {
   }
 }
 
+.mobile {
+  display: none;
+  @media @mobile {
+    .display-flex;
+    .flex-wrap(wrap);
+    .align-items(center);
+    .justify-content(center);
+  }
+}
+
+.desktop {
+  .display-flex;
+  .flex-wrap(wrap);
+  .align-items(center);
+  .justify-content(center);
+  @media @mobile {
+    display: none;
+  }
+}
+
 .top-container {
   position: relative;
   top: 0;
@@ -208,9 +239,11 @@ footer {
   text-align: left;
   color: white;
   margin: auto;
-  margin-top: 200px;
+  margin-top: 300px;
   max-width: 400px;
-  // display: none;
+  @media @laptop {
+    margin-top: 200px;
+  }
   @media @tablet {
     width: 100%;
     top: 0;
@@ -256,9 +289,6 @@ footer {
     text-align: center;
     font-size: 16px;
     padding-top: 20px;
-    @media @mobile {
-      font-size: 30px;
-    }
   }
   .deck {
     font-family: @block-graphics;
@@ -266,5 +296,10 @@ footer {
     font-size: 18px;
     text-align: center;
     padding-top: 20px;
+    @media @mobile {
+      text-align: left;
+      padding: 20px;
+      padding-bottom: 0;
+    }
   }
 }
