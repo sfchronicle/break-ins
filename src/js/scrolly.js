@@ -24,6 +24,21 @@ if (screen.width <= 480){
   $("#backgroundmobile-1").removeClass("visible");
 }
 
+// $(window).resize(function () {
+//   console.log("resize");
+//   if (screen.width <= 480){
+//     var img_root = "backgroundmobile";
+//     $("#background-1").removeClass("visible");
+//   } else {
+//     var img_root = "background";
+//     $("#backgroundmobile-1").removeClass("visible");
+//   }
+//
+//   $(window).scroll(function () {
+//     handleScroll();
+//   });
+// });
+
 // function for updating with scroll
 var prevIDX = -1;
 var currentIDX = -1;

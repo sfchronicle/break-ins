@@ -3,11 +3,11 @@
 <div class="background-img-container visible desktop" id="background-1">
   <img src="./assets/maps/backdrop.png"></img>
 </div>
-<div class="background-img-container visible mobile" id="background-1">
+<div class="background-img-container visible mobile" id="backgroundmobile-1">
   <img src="./assets/maps/backdropm.png"></img>
 </div>
 
-<% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
+<% json.carbreakin0318_data.text.forEach(function(d,dIDX){ %>
   <% if (d.Image){ %>
 
     <% if (d.Image.match("graphics")){ %>
@@ -15,10 +15,13 @@
     <% } else { %>
       <div class="background-img-container desktop" id="background<%=dIDX%>">
     <% } %>
-      <% if (d.Image.match("hdnux")) { %>
-        <img src="<%=d.Image%>"></img>
+      <% if (d.Image.match("hdnux") || d.Image.match("photos")) { %>
+        <img src="<%=d.Image%>?4"></img>
+        <% if (d.Credit) { %>
+          <div class="caption"><%=d.Credit%></div>
+        <% } %>
       <% } else { %>
-        <img src="<%=d.Image%>?5"></img>
+        <img src="<%=d.Image%>?8"></img>
       <% } %>
       </div>
 
@@ -27,10 +30,10 @@
     <% } else { %>
       <div class="background-img-container mobile" id="backgroundmobile<%=dIDX%>">
     <% } %>
-      <% if (d.Image.match("hdnux")) { %>
+      <% if (d.Image.match("hdnux") || d.Image.match("photos")) { %>
         <img src="<%=d.Image%>"></img>
       <% } else { %>
-        <img src="<%=d.Image.split('.png')[0]%>m.png?5"></img>
+        <img src="<%=d.Image.split('.png')[0]%>m.png"></img>
       <% } %>
       </div>
 
@@ -40,11 +43,11 @@
 <div class="top-container">
 
   <div class="hed-wrapper">
-    <div class="hed"><%=json.carbreakinxxxx_data.Title %></div>
-    <div class="title-date"><%=json.carbreakinxxxx_data.Date %></div>
+    <div class="hed"><%=json.carbreakin0318_data.Title %></div>
+    <div class="title-date"><%=json.carbreakin0318_data.Date %></div>
     <div class="byline">By <a href="mailto:jpalomino@sfchronicle.com">Joaquin Palomino</a>, <a href="mailto:eoneill@sfchronicle.com">Emma O'Neill</a>, and <a href="mailto:ttrumbull@sfchronicle.com">Todd Trumbull</a></div>
 
-    <div class="deck"><%=json.carbreakinxxxx_data.Deck%></div>
+    <div class="deck"><%=json.carbreakin0318_data.Deck%></div>
   </div>
 
   <div class="instructions">Scroll down.
@@ -55,7 +58,7 @@
 <div id="bottom-of-top"></div>
 
 <div class="category-box">
-<% json.carbreakinxxxx_data.text.forEach(function(d,dIDX){ %>
+<% json.carbreakin0318_data.text.forEach(function(d,dIDX){ %>
   <div class="event" id="mapevent<%=dIDX%>">
     <div class="category"><div class="category-text"><%=d.Text%></div></div>
   </div>
@@ -66,7 +69,7 @@
 
 <div class="bottom-of-page">
 
-  <div class="methodology"><div class="bottom-hed">Methodology:</div><%=json.carbreakinxxxx_data.Methodology%></div>
+  <div class="methodology"><div class="bottom-hed">Methodology:</div><%=json.carbreakin0318_data.Methodology%></div>
 
   <div class="credit-block">
     <div class="bottom-hed">Credits:</div>
@@ -81,7 +84,7 @@
 <%= t.include("partials/_footer.html") %>
 
 <script>
-  var categoryData = <%= JSON.stringify(json.carbreakinxxxx_data.text) %>
+  var categoryData = <%= JSON.stringify(json.carbreakin0318_data.text) %>
 </script>
 
 <script src="scrolly_app.js?2" async></script>

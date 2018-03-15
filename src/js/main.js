@@ -13,7 +13,7 @@ function zfill(number, size) {
 // setting parameters for the center of the map and initial zoom level
 var sf_lat = 37.7749;
 var sf_long = -122.4294;
-var zoom_deg = 13;//13 zoomed out
+var zoom_deg = 14;//13 zoomed out
 var offset_top = $(window).height()/3;
 var bottomOffset = 200;
 
@@ -80,6 +80,22 @@ function style(feature) {
   };
 }
 var breakinLayer = L.geoJSON(sf,{style: style}).addTo(map);
+
+var small_size = 3+1/10*(zoom_deg-12)+1;
+var big_size = 3+100/10*(zoom_deg-12)+1;
+$("#small-dot-yellow").css("height",small_size*2);
+$("#small-dot-yellow").css("width",small_size*2);
+$("#small-dot-yellow").css("border-radius",small_size*2);
+
+$("#small-dot-red").css("height",small_size*2);
+$("#small-dot-red").css("width",small_size*2);
+$("#small-dot-red").css("border-radius",small_size*2);
+
+$("#big-dot-yellow").css("height",big_size*2);
+$("#big-dot-yellow").css("width",big_size*2);
+$("#big-dot-yellow").css("border-radius",big_size*2);
+
+$(".dot-container").css("width",big_size*2+10);
 
 function buildmap(){
 
