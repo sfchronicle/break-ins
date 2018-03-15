@@ -18,8 +18,10 @@ $(window).scroll(function () {
 
 if (screen.width <= 480){
   var img_root = "backgroundmobile";
+  $("#background-1").removeClass("visible");
 } else {
   var img_root = "background";
+  $("#backgroundmobile-1").removeClass("visible");
 }
 
 // function for updating with scroll
