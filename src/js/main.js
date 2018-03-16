@@ -10,15 +10,20 @@ function zfill(number, size) {
   return number;
 }
 
+var mobile_size = 520;
+
+if (screen.width <= mobile_size){
+  minzoomdeg = 11;
+} else {
+  minzoomdeg = 12;
+}
+
 // setting parameters for the center of the map and initial zoom level
 var sf_lat = 37.7749;
 var sf_long = -122.4294;
-var zoom_deg = 14;//13 zoomed out
+var zoom_deg = 15;//13 zoomed out
 var offset_top = $(window).height()/3;
 var bottomOffset = 200;
-
-
-console.log(offset_top);
 
 // var timeTimeout = 1;
 
@@ -31,12 +36,8 @@ function tooltip_function (d) {
 
 // initialize map with center position and zoom levels
 var map = L.map("map", {
-  // minZoom: min_zoom_deg,
-  // maxZoom: max_zoom_deg,
   zoomControl: false,
   scrollWheelZoom: false,
-  // attributionControl: false,
-  // doubleClickZoom: false
 }).setView([sf_lat,sf_long], zoom_deg);
 
 var gl = L.mapboxGL({
@@ -81,8 +82,8 @@ function style(feature) {
 }
 var breakinLayer = L.geoJSON(sf,{style: style}).addTo(map);
 
-var small_size = 3+1/10*(zoom_deg-12)+1;
-var big_size = 3+100/10*(zoom_deg-12)+1;
+var small_size = 3+1/10*(zoom_deg-minzoomdeg)+1;
+var big_size = 3+100/10*(zoom_deg-minzoomdeg)+1;
 $("#small-dot-yellow").css("height",small_size*2);
 $("#small-dot-yellow").css("width",small_size*2);
 $("#small-dot-yellow").css("border-radius",small_size*2);
@@ -140,9 +141,9 @@ function buildmap(){
     .style("stroke","#696969")
     .attr("r", function(d) {
       if (d.Class == "breakin"){
-        return 3+d.Count/10*(zoom_deg-12);
+        return 3+d.Count/10*(zoom_deg-minzoomdeg);
       } else if (d.Class == "arrest"){
-        return 3+d.Count/10*(zoom_deg-12);
+        return 3+d.Count/10*(zoom_deg-minzoomdeg);
       }
     });
 
