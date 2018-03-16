@@ -21,7 +21,7 @@ if (screen.width <= mobile_size){
 // setting parameters for the center of the map and initial zoom level
 var sf_lat = 37.7749;
 var sf_long = -122.4294;
-var zoom_deg = 15;//13 zoomed out
+var zoom_deg = 12;//13 zoomed out
 var offset_top = $(window).height()/3;
 var bottomOffset = 200;
 
