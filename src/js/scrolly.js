@@ -16,6 +16,8 @@ $(window).scroll(function () {
   handleScroll();
 });
 
+$('a[href^="http"]').attr('target','_blank');
+
 if (screen.width <= 480){
   var img_root = "backgroundmobile";
   $("#background-1").removeClass("visible");
