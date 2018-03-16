@@ -32,6 +32,9 @@
     <% } %>
       <% if (d.Image.match("hdnux") || d.Image.match("photos")) { %>
         <img src="<%=d.Image%>"></img>
+        <% if (d.Credit) { %>
+          <div class="caption"><%=d.Credit%></div>
+        <% } %>
       <% } else { %>
         <img src="<%=d.Image.split('.png')[0]%>m.png"></img>
       <% } %>
